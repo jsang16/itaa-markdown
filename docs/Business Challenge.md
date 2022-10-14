@@ -1,0 +1,3 @@
+# Business Challenge
+
+Red Hat OpenShift Container Platform (RHOCP) is a strategic solution to deliver a cloud native, container-based hybrid cloud platform for an enterprise. Such a decision addresses many critical business challenges including:<div><ul><li>Be able to leverage investment in both workload modernization and new cloud native workloads without being locked into a particular infrastructure.</li><li>Drive digital transformation for greater agility and drive innovation</li><li>Adoption of Cloud infrastructure model to manage costs.</li><li>Consistent Day 1 and Day 2 processes across a multiple cloud landscape.<br></li></ul></div>

@@ -1,13 +1,11 @@
-# This is an example mkdocs.yml file, it will be overwritten during the GitHub Pages exporting
-
 # Site Information
-site_name: {architecture_name}
-site_url: "https://pages.github.ibm.com/{github_account}/{repo}"
-# site_description: {architecture_name}
+site_name: OpenShift Solution Guidance V2
+site_url: https://github.com/jsang16/itaa-markdown.git
+# site_description: OpenShift Solution Guidance V2
 
 # # Repository Information
-# repo_name: '{repo}'
-# repo_url: 'https://github.ibm.com/{github_account}/{repo}'
+# repo_name: itaa-markdown
+# repo_url: https://github.com/jsang16/itaa-markdown.git
 # edit_uri: 'edit/main/docs'
 docs_dir: 'docs'
 # # site_dir: 'site'
@@ -15,25 +13,191 @@ docs_dir: 'docs'
 # remote_name: 'origin'
 
 # Server info
-dev_addr: '127.0.0.1:8000'
+# dev_addr: '127.0.0.1:8000'
 
 nav:
+
   - Table of Content: 
-    - Information: index.md
-    # ...
+
+    - 0. Information: index.md
+
+    - 1. Overview: Overview.md
+
+    - 2. Scope: 
+
+      - 2.1 Business Challenge: 
+
+        - 'Business Challenge' : Business Challenge.md
+
+    - 3. Requirement: 
+
+      - 3.2 Functional Requirements: 
+
+        - 'Container orchestration services' : Functional Requirements/functionalrequirement_SyEAQ49QjBYK.md
+
+        - 'User self-service' : Functional Requirements/functionalrequirement_SkHRmNcmjSKK.md
+
+        - 'Policy management' : Functional Requirements/functionalrequirement_HJU0mV5XsSKt.md
+
+        - 'Cloud integration' : Functional Requirements/functionalrequirement_H1PRQV57iSFY.md
+
+        - 'Network and Storage virtualization' : Functional Requirements/functionalrequirement_S1xZHel8tY.md
+
+        - 'Command line tools' : Functional Requirements/functionalrequirement_Hkx58gl8KK.md
+
+        - 'CI/CD tools' : Functional Requirements/functionalrequirement_HJg6weg8KY.md
+
+        - 'Open source tools' : Functional Requirements/functionalrequirement_SygxBgeItK.md
+
+        - 'Automation tools' : Functional Requirements/functionalrequirement_BJxSIxl8KF.md
+
+      - 3.3 Non Functional Requirements: 
+
+        - 'Scalability' : Non Functional Requirements/nonfunctionalrequirement_ryY0mNqXorYt.md
+
+        - 'Load balancing' : Non Functional Requirements/nonfunctionalrequirement_H1es1ZgIFK.md
+
+        - 'Fault tolerance' : Non Functional Requirements/nonfunctionalrequirement_HJeuRxeUKt.md
+
+        - 'Physical footprint' : Non Functional Requirements/nonfunctionalrequirement_rklMVbxUFt.md
+
+        - 'Ease of installation' : Non Functional Requirements/nonfunctionalrequirement_H1l-lze8KF.md
+
+        - 'Ease of management/opera tions' : Non Functional Requirements/nonfunctionalrequirement_SJgeDMe8YK.md
+
+        - 'Flexibility' : Non Functional Requirements/nonfunctionalrequirement_HkgW8fgIKt.md
+
+        - 'Security' : Non Functional Requirements/nonfunctionalrequirement_rkl9qMlUFK.md
+
+        - 'High performance' : Non Functional Requirements/nonfunctionalrequirement_Skx_l7gIFK.md
+
+    - 5. Architecture: 
+
+      - 5.1 Architecture Overview: 
+
+        - 5.1.3 IT System View: 
+
+          - '01 Starter environment' : IT System View/aoditsystem_r18uxVqXsBFK.md
+
+          - '02 Three nodes cluster' : IT System View/aoditsystem_By7NIorFt.md
+
+          - '03 On-premises cluster' : IT System View/aoditsystem_B1r5OjHFF.md
+
+          - '04 Cloud cluster' : IT System View/aoditsystem_ByreAoBFK.md
+
+          - '05 Two clusters on-premises' : IT System View/aoditsystem_rk9c-3BtF.md
+
+          - '06 Two clusters on two regions' : IT System View/aoditsystem_Sy-F43rKt.md
+
+          - '07 AWS' : IT System View/aoditsystem_HkaCNxvtF.md
+
+          - '08 Red Hat OpenShift on IBM Cloud on VPC' : IT System View/aoditsystem_HJ4nuWvtF.md
+
+          - '09 Azure' : IT System View/aoditsystem_rkfCxWPYY.md
+
+          - 'Deployment View' : IT System View/aoditsystem_BydIlEc7sHFF.md
+
+          - 'Diagram Legend' : IT System View/aoditsystem_HJGd7N9QjHFt.md
+
+          - 'OM - Prescribed View' : IT System View/aoditsystem_SJAvxVcQjStY.md
+
+      - 5.2 Architectural Decisions: 
+
+        - 'Hosting Platform and Managed or Self-Managed Service' : Architectural Decisions/architecturaldecision_SJ3uX4qQjBYK.md
+
+        - 'Red Hat OpenShift Cluster Platform Node Type' : Architectural Decisions/architecturaldecision_HkD_7N5XjSFF.md
+
+        - 'OpenShift Self Managed - IPI or UPI installation' : Architectural Decisions/architecturaldecision_rJgYm49QiHFt.md
+
+        - 'Red Hat OpenShift Container Platform Life Cycle Policy (EUS Support)' : Architectural Decisions/architecturaldecision_rkrtQ4qXoSKt.md
+
+        - 'Control Plane Deployment Topology' : Architectural Decisions/architecturaldecision_Hk0F7VcXjrYY.md
+
+        - 'Control plane node sizing' : Architectural Decisions/architecturaldecision_H1sTQ49miHKt.md
+
+        - 'Management Service Placement' : Architectural Decisions/architecturaldecision_Sy1j7VqQoHFt.md
+
+        - 'Production and Non-Production Topology' : Architectural Decisions/architecturaldecision_HyitX45QjHtF.md
+
+        - 'Application Availability' : Architectural Decisions/architecturaldecision_SJ-5mV5msBYt.md
+
+        - 'Control Plane Deployment Topology (Single Region with multiple AZ)' : Architectural Decisions/architecturaldecision_SJY57NqmjSYK.md
+
+        - 'Container Registry' : Architectural Decisions/architecturaldecision_S1hcmN5XsrFK.md
+
+        - 'Ingress Traffic for Applications' : Architectural Decisions/architecturaldecision_Bkbp7V9XsBtt.md
+
+        - 'Load Balancer Selection' : Architectural Decisions/architecturaldecision_SJB57N57srKF.md
+
+        - 'Storage Technology for Red Hat OpenShift Cluster Platform Registry' : Architectural Decisions/architecturaldecision_ByisXEcmoSKK.md
+
+        - 'Storage Technology for Metrics &amp; Logging' : Architectural Decisions/architecturaldecision_ByJ2Q4q7jBKt.md
+
+        - 'Persistent Storage Options for Applications' : Architectural Decisions/architecturaldecision_ryf2QV5mjSYF.md
+
+    - 10. Misc Diagram: 
+
+      - 'Az-public-cloud-env-embedded-storage' : Misc Diagram/miscdiagram_SkXHeVqmjBtt.md
+
+      - 'Az-public-cloud-env-external-storage' : Misc Diagram/miscdiagram_S1bHxE9QiHtt.md
+
+      - 'Az-public-cloud-env-infra-embedded-storage' : Misc Diagram/miscdiagram_SysHgN9mjSFt.md
+
+      - 'Az-public-cloud-environment' : Misc Diagram/miscdiagram_HJKHg4cXjStt.md
+
+      - 'Deployment View' : Misc Diagram/miscdiagram_rJwElEc7srtK.md
+
+      - 'Embeded-storage-environment' : Misc Diagram/miscdiagram_HJJrxEcQirtY.md
+
+      - 'External-storage-environment' : Misc Diagram/miscdiagram_Sy64xN97iHtt.md
+
+      - 'Infra-node-env-embedded-storage' : Misc Diagram/miscdiagram_Bkvrx45XiHYF.md
+
+      - 'Infra-node-environment' : Misc Diagram/miscdiagram_rkSHl4cQsrKF.md
+
+      - 'Legend' : Misc Diagram/miscdiagram_HkBLeVcmsBYF.md
+
+      - 'Minimal-environment' : Misc Diagram/miscdiagram_HJsVeEq7jHFt.md
+
+      - 'Multi-region-public-cloud-environment' : Misc Diagram/miscdiagram_SJ78x49QoHYY.md
+
+      - 'OM - Prescribed View' : Misc Diagram/miscdiagram_H1KNlN97jSKY.md
+
+      - 'On-prem-multi-sites-env-embedded-storage' : Misc Diagram/miscdiagram_H1kIlN5QsrFt.md
+
+      - 'On-prem-multi-sites-environment' : Misc Diagram/miscdiagram_BkpSgVq7iHFF.md
+
+      - 'test' : Misc Diagram/miscdiagram_SJW8gEqXjStK.md
+
+    - 11. Notes: 
+
+      - 'Enablement' : Notes/notes_ryeC7457ortF.md
+
+
+   
+       
+
 
 markdown_extensions:
+
   - md_in_html
+
   - toc:
+
       permalink: True
+
   - footnotes
+
   - tables
+
   - admonition
   - pymdownx.details
   - pymdownx.superfences
+
   - attr_list
 
 theme:
+
   name: material
   palette:
     primary: 'black'
@@ -42,7 +206,7 @@ theme:
     text: 'IBM Plex Sans'
     code: 'IBM Plex Mono'
   logo: assets/ca.svg
-  favicon: assets/ca.svg     
+  favicon: assets/ca.svg 
   features:
     # - navigation.tabs
     - navigation.tabs.sticky
