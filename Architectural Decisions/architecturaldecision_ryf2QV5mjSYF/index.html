@@ -1,0 +1,2178 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://github.com/jsang16/itaa-markdown.git/Architectural%20Decisions/architecturaldecision_ryf2QV5mjSYF/">
+      
+      <link rel="icon" href="../../assets/ca.svg">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.4.2">
+    
+    
+      
+        <title>Persistent Storage Options for Applications - OpenShift Solution Guidance V2</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.69437709.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cbb835fc.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="black" data-md-color-accent="red">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ocp-020" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="OpenShift Solution Guidance V2" class="md-header__button md-logo" aria-label="OpenShift Solution Guidance V2" data-md-component="logo">
+      
+  <img src="../../assets/ca.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            OpenShift Solution Guidance V2
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Persistent Storage Options for Applications
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="OpenShift Solution Guidance V2" class="md-nav__button md-logo" aria-label="OpenShift Solution Guidance V2" data-md-component="logo">
+      
+  <img src="../../assets/ca.svg" alt="logo">
+
+    </a>
+    OpenShift Solution Guidance V2
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          Table of Content
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Table of Content" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Table of Content
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        0. Information
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Overview/" class="md-nav__link">
+        1. Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_3" type="checkbox" id="__nav_1_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_3">
+          2. Scope
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="2. Scope" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_3">
+          <span class="md-nav__icon md-icon"></span>
+          2. Scope
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_3_1" type="checkbox" id="__nav_1_3_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_3_1">
+          2.1 Business Challenge
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="2.1 Business Challenge" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1_3_1">
+          <span class="md-nav__icon md-icon"></span>
+          2.1 Business Challenge
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Business%20Challenge/" class="md-nav__link">
+        Business Challenge
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_4" type="checkbox" id="__nav_1_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_4">
+          3. Requirement
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="3. Requirement" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_4">
+          <span class="md-nav__icon md-icon"></span>
+          3. Requirement
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_4_1" type="checkbox" id="__nav_1_4_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_4_1">
+          3.2 Functional Requirements
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="3.2 Functional Requirements" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          3.2 Functional Requirements
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Functional%20Requirements/functionalrequirement_SyEAQ49QjBYK/" class="md-nav__link">
+        Container orchestration services
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Functional%20Requirements/functionalrequirement_SkHRmNcmjSKK/" class="md-nav__link">
+        User self-service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Functional%20Requirements/functionalrequirement_HJU0mV5XsSKt/" class="md-nav__link">
+        Policy management
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Functional%20Requirements/functionalrequirement_H1PRQV57iSFY/" class="md-nav__link">
+        Cloud integration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Functional%20Requirements/functionalrequirement_S1xZHel8tY/" class="md-nav__link">
+        Network and Storage virtualization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Functional%20Requirements/functionalrequirement_Hkx58gl8KK/" class="md-nav__link">
+        Command line tools
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Functional%20Requirements/functionalrequirement_HJg6weg8KY/" class="md-nav__link">
+        CI/CD tools
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Functional%20Requirements/functionalrequirement_SygxBgeItK/" class="md-nav__link">
+        Open source tools
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Functional%20Requirements/functionalrequirement_BJxSIxl8KF/" class="md-nav__link">
+        Automation tools
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_4_2" type="checkbox" id="__nav_1_4_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_4_2">
+          3.3 Non Functional Requirements
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="3.3 Non Functional Requirements" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          3.3 Non Functional Requirements
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Non%20Functional%20Requirements/nonfunctionalrequirement_ryY0mNqXorYt/" class="md-nav__link">
+        Scalability
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Non%20Functional%20Requirements/nonfunctionalrequirement_H1es1ZgIFK/" class="md-nav__link">
+        Load balancing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Non%20Functional%20Requirements/nonfunctionalrequirement_HJeuRxeUKt/" class="md-nav__link">
+        Fault tolerance
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Non%20Functional%20Requirements/nonfunctionalrequirement_rklMVbxUFt/" class="md-nav__link">
+        Physical footprint
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Non%20Functional%20Requirements/nonfunctionalrequirement_H1l-lze8KF/" class="md-nav__link">
+        Ease of installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Non%20Functional%20Requirements/nonfunctionalrequirement_SJgeDMe8YK/" class="md-nav__link">
+        Ease of management/opera tions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Non%20Functional%20Requirements/nonfunctionalrequirement_HkgW8fgIKt/" class="md-nav__link">
+        Flexibility
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Non%20Functional%20Requirements/nonfunctionalrequirement_rkl9qMlUFK/" class="md-nav__link">
+        Security
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Non%20Functional%20Requirements/nonfunctionalrequirement_Skx_l7gIFK/" class="md-nav__link">
+        High performance
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_5" type="checkbox" id="__nav_1_5" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_5">
+          5. Architecture
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="5. Architecture" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_5">
+          <span class="md-nav__icon md-icon"></span>
+          5. Architecture
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_5_1" type="checkbox" id="__nav_1_5_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_5_1">
+          5.1 Architecture Overview
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="5.1 Architecture Overview" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1_5_1">
+          <span class="md-nav__icon md-icon"></span>
+          5.1 Architecture Overview
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_5_1_1" type="checkbox" id="__nav_1_5_1_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_5_1_1">
+          5.1.3 IT System View
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="5.1.3 IT System View" data-md-level="4">
+        <label class="md-nav__title" for="__nav_1_5_1_1">
+          <span class="md-nav__icon md-icon"></span>
+          5.1.3 IT System View
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IT%20System%20View/aoditsystem_r18uxVqXsBFK/" class="md-nav__link">
+        01 Starter environment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IT%20System%20View/aoditsystem_By7NIorFt/" class="md-nav__link">
+        02 Three nodes cluster
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IT%20System%20View/aoditsystem_B1r5OjHFF/" class="md-nav__link">
+        03 On-premises cluster
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IT%20System%20View/aoditsystem_ByreAoBFK/" class="md-nav__link">
+        04 Cloud cluster
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IT%20System%20View/aoditsystem_rk9c-3BtF/" class="md-nav__link">
+        05 Two clusters on-premises
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IT%20System%20View/aoditsystem_Sy-F43rKt/" class="md-nav__link">
+        06 Two clusters on two regions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IT%20System%20View/aoditsystem_HkaCNxvtF/" class="md-nav__link">
+        07 AWS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IT%20System%20View/aoditsystem_HJ4nuWvtF/" class="md-nav__link">
+        08 Red Hat OpenShift on IBM Cloud on VPC
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IT%20System%20View/aoditsystem_rkfCxWPYY/" class="md-nav__link">
+        09 Azure
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IT%20System%20View/aoditsystem_BydIlEc7sHFF/" class="md-nav__link">
+        Deployment View
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IT%20System%20View/aoditsystem_HJGd7N9QjHFt/" class="md-nav__link">
+        Diagram Legend
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IT%20System%20View/aoditsystem_SJAvxVcQjStY/" class="md-nav__link">
+        OM - Prescribed View
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_5_2" type="checkbox" id="__nav_1_5_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_5_2">
+          5.2 Architectural Decisions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="5.2 Architectural Decisions" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1_5_2">
+          <span class="md-nav__icon md-icon"></span>
+          5.2 Architectural Decisions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecturaldecision_SJ3uX4qQjBYK/" class="md-nav__link">
+        Hosting Platform and Managed or Self-Managed Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecturaldecision_HkD_7N5XjSFF/" class="md-nav__link">
+        Red Hat OpenShift Cluster Platform Node Type
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecturaldecision_rJgYm49QiHFt/" class="md-nav__link">
+        OpenShift Self Managed - IPI or UPI installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecturaldecision_rkrtQ4qXoSKt/" class="md-nav__link">
+        Red Hat OpenShift Container Platform Life Cycle Policy (EUS Support)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecturaldecision_Hk0F7VcXjrYY/" class="md-nav__link">
+        Control Plane Deployment Topology
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecturaldecision_H1sTQ49miHKt/" class="md-nav__link">
+        Control plane node sizing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecturaldecision_Sy1j7VqQoHFt/" class="md-nav__link">
+        Management Service Placement
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecturaldecision_HyitX45QjHtF/" class="md-nav__link">
+        Production and Non-Production Topology
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecturaldecision_SJ-5mV5msBYt/" class="md-nav__link">
+        Application Availability
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecturaldecision_SJY57NqmjSYK/" class="md-nav__link">
+        Control Plane Deployment Topology (Single Region with multiple AZ)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecturaldecision_S1hcmN5XsrFK/" class="md-nav__link">
+        Container Registry
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecturaldecision_Bkbp7V9XsBtt/" class="md-nav__link">
+        Ingress Traffic for Applications
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecturaldecision_SJB57N57srKF/" class="md-nav__link">
+        Load Balancer Selection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecturaldecision_ByisXEcmoSKK/" class="md-nav__link">
+        Storage Technology for Red Hat OpenShift Cluster Platform Registry
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecturaldecision_ByJ2Q4q7jBKt/" class="md-nav__link">
+        Storage Technology for Metrics &amp; Logging
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Persistent Storage Options for Applications
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Persistent Storage Options for Applications
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary __page_structure" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_page" type="checkbox" checked id="__nav_page">
+    <label id="__label_nav_page" class="md-nav__title md-nav__link page_structure" for="__nav_page">
+      On This Page
+      <span class="md-nav__icon md-icon" style="display: block;"></span>
+      </label>
+    </label>
+    <ul class="md-nav__list __list_nav_page" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#name" class="md-nav__link">
+    Name
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#status" class="md-nav__link">
+    Status
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#last-update" class="md-nav__link">
+    Last Update
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subject-area" class="md-nav__link">
+    Subject Area
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#topic" class="md-nav__link">
+    Topic
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#issue-or-problem-statement" class="md-nav__link">
+    Issue or Problem Statement
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#assumptions" class="md-nav__link">
+    Assumptions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#motivation" class="md-nav__link">
+    Motivation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    Notes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternatives" class="md-nav__link">
+    Alternatives
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision" class="md-nav__link">
+    Decision
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#justification" class="md-nav__link">
+    Justification
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implications" class="md-nav__link">
+    Implications
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#derived-requirements" class="md-nav__link">
+    Derived Requirements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-decisions" class="md-nav__link">
+    Related Decisions
+  </a>
+  
+</li>
+      
+    </ul>
+  
+  
+  
+</nav>
+
+<script>
+  var expand = document.getElementById('__nav_page');
+  var btn = document.getElementById('__label_nav_page');
+  var page = document.getElementsByClassName('__page_structure');
+  var list = document.getElementsByClassName('__list_nav_page');
+  if(expand){
+    expand.oninput = function () {
+      if (expand.checked) {
+        page[1].classList.remove('collapsed');
+        // list[1].classList.remove('collapsed');
+      }
+      else {
+        page[1].classList.add('collapsed');
+        // list[1].classList.add('collapsed');
+      }
+    }
+  }
+  
+</script>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_6" type="checkbox" id="__nav_1_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_6">
+          10. Misc Diagram
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="10. Misc Diagram" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_6">
+          <span class="md-nav__icon md-icon"></span>
+          10. Misc Diagram
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_SkXHeVqmjBtt/" class="md-nav__link">
+        Az-public-cloud-env-embedded-storage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_S1bHxE9QiHtt/" class="md-nav__link">
+        Az-public-cloud-env-external-storage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_SysHgN9mjSFt/" class="md-nav__link">
+        Az-public-cloud-env-infra-embedded-storage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_HJKHg4cXjStt/" class="md-nav__link">
+        Az-public-cloud-environment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_rJwElEc7srtK/" class="md-nav__link">
+        Deployment View
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_HJJrxEcQirtY/" class="md-nav__link">
+        Embeded-storage-environment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_Sy64xN97iHtt/" class="md-nav__link">
+        External-storage-environment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_Bkvrx45XiHYF/" class="md-nav__link">
+        Infra-node-env-embedded-storage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_rkSHl4cQsrKF/" class="md-nav__link">
+        Infra-node-environment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_HkBLeVcmsBYF/" class="md-nav__link">
+        Legend
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_HJsVeEq7jHFt/" class="md-nav__link">
+        Minimal-environment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_SJ78x49QoHYY/" class="md-nav__link">
+        Multi-region-public-cloud-environment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_H1KNlN97jSKY/" class="md-nav__link">
+        OM - Prescribed View
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_H1kIlN5QsrFt/" class="md-nav__link">
+        On-prem-multi-sites-env-embedded-storage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_BkpSgVq7iHFF/" class="md-nav__link">
+        On-prem-multi-sites-environment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_SJW8gEqXjStK/" class="md-nav__link">
+        test
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_7" type="checkbox" id="__nav_1_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_7">
+          11. Notes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="11. Notes" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_7">
+          <span class="md-nav__icon md-icon"></span>
+          11. Notes
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Notes/notes_ryeC7457ortF/" class="md-nav__link">
+        Enablement
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary __page_structure" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_page" type="checkbox" checked id="__nav_page">
+    <label id="__label_nav_page" class="md-nav__title md-nav__link page_structure" for="__nav_page">
+      On This Page
+      <span class="md-nav__icon md-icon" style="display: block;"></span>
+      </label>
+    </label>
+    <ul class="md-nav__list __list_nav_page" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#name" class="md-nav__link">
+    Name
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#status" class="md-nav__link">
+    Status
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#last-update" class="md-nav__link">
+    Last Update
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subject-area" class="md-nav__link">
+    Subject Area
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#topic" class="md-nav__link">
+    Topic
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#issue-or-problem-statement" class="md-nav__link">
+    Issue or Problem Statement
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#assumptions" class="md-nav__link">
+    Assumptions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#motivation" class="md-nav__link">
+    Motivation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    Notes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternatives" class="md-nav__link">
+    Alternatives
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision" class="md-nav__link">
+    Decision
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#justification" class="md-nav__link">
+    Justification
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implications" class="md-nav__link">
+    Implications
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#derived-requirements" class="md-nav__link">
+    Derived Requirements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-decisions" class="md-nav__link">
+    Related Decisions
+  </a>
+  
+</li>
+      
+    </ul>
+  
+  
+  
+</nav>
+
+<script>
+  var expand = document.getElementById('__nav_page');
+  var btn = document.getElementById('__label_nav_page');
+  var page = document.getElementsByClassName('__page_structure');
+  var list = document.getElementsByClassName('__list_nav_page');
+  if(expand){
+    expand.oninput = function () {
+      if (expand.checked) {
+        page[1].classList.remove('collapsed');
+        // list[1].classList.remove('collapsed');
+      }
+      else {
+        page[1].classList.add('collapsed');
+        // list[1].classList.add('collapsed');
+      }
+    }
+  }
+  
+</script>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="ocp-020">OCP-020<a class="headerlink" href="#ocp-020" title="Permanent link">&para;</a></h1>
+<h3 id="name">Name<a class="headerlink" href="#name" title="Permanent link">&para;</a></h3>
+<p>Persistent Storage Options for Applications</p>
+<h3 id="status">Status<a class="headerlink" href="#status" title="Permanent link">&para;</a></h3>
+<p>proposed</p>
+<h3 id="last-update">Last Update<a class="headerlink" href="#last-update" title="Permanent link">&para;</a></h3>
+<p>2022-03-08</p>
+<h3 id="subject-area">Subject Area<a class="headerlink" href="#subject-area" title="Permanent link">&para;</a></h3>
+<p>Storage</p>
+<h3 id="topic">Topic<a class="headerlink" href="#topic" title="Permanent link">&para;</a></h3>
+<p>Workload storage</p>
+<h3 id="issue-or-problem-statement">Issue or Problem Statement<a class="headerlink" href="#issue-or-problem-statement" title="Permanent link">&para;</a></h3>
+<p>Select the storage providers available to OpenShift, that match the application workloads and required replication / availability of the data. Note that various Cloud Paks support different storage providers, and different Cloud Providers / platforms have varying support for these storage providers. For this AD, please check against the latest Cloud Pak / workload documentation, as well as the platform documentation (ex: AWS) to ensure you have a supported combination.</p>
+<h3 id="assumptions">Assumptions<a class="headerlink" href="#assumptions" title="Permanent link">&para;</a></h3>
+<p>Storage requirements vary from application to application.
+Development teams should select best storage option for their application.
+For the best etcd reliability, the lowest consistent latency storage technology is preferable.
+Documented Red Hat OpenShift Reference Architectures provides several potential options based on defined solution requirements.</p>
+<h3 id="motivation">Motivation<a class="headerlink" href="#motivation" title="Permanent link">&para;</a></h3>
+<p>https://docs.openshift.com/container-platform/4.9/storage/understanding-persistent-storage.html<div>https://ibm.seismic.com/Link/Content/DCMgg8H37dqfG8qPhMFg3XWH2BdG for more details on supported storage drivers for IBM Cloud Paks</div><div>https://ibm.seismic.com/Link/Content/DCPWVTpXb4m228mMQ9QR2MPf72MV for hyperscaler options</div><div>https://pages.github.ibm.com/UDF/UDF-Guide/t/T101385/ - other details on storage ADs</div></p>
+<h3 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h3>
+<p><a class="md-button same-line" href="#">Expand all</a></p>
+<h3 id="alternatives">Alternatives<a class="headerlink" href="#alternatives" title="Permanent link">&para;</a></h3>
+<details>
+<summary>Block Storage</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Block Storage</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>Block storage does not support concurrent access.
+Databases tend to perform best with dedicated, block storage</td>
+    </tr>
+    <tr>
+        <td> <strong>Best Applied</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Contraindications</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>File Storage (NAS)</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>File Storage (NAS)</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>N/A</td>
+    </tr>
+    <tr>
+        <td> <strong>Best Applied</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Contraindications</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Local Volumes</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Local Volumes</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>Red Hat OpenShift PVs can be provisioned using local volumes[^18.2].
+Local volumes are subject to the availability of the underlying node and are not suitable for all applications.</td>
+    </tr>
+    <tr>
+        <td> <strong>Best Applied</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Contraindications</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>NetApp Trident</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>NetApp Trident</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>N/A</td>
+    </tr>
+    <tr>
+        <td> <strong>Best Applied</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Contraindications</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Object Storage</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Object Storage</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>Object storage is not consumed through Red Hat OpenShift PVs/ PVCs.
+Object storage must have drivers built into the application and/or container.</td>
+    </tr>
+    <tr>
+        <td> <strong>Best Applied</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Contraindications</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Portworx</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Portworx</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>For IBM Cloud Paks, you need to check which storage solution is supported for each IBM Cloud Pak. For example the disaster recovery of IBM Cloud Pak for Data depends on Portworx Asynchronous replication.
+Some IBM Cloud Paks gives limited entitlements for some storage solutions. For example, IBM Cloud Pak for Integration gives entitlement to Storage Suite for IBM Cloud Paks (to be used for up to 12 TB of Red Hat OpenShift Data Foundation and an additional capacity of 12 TB across the rest of the storage offerings) while IBM Cloud Pak for Data gives entitlement for Portworx Essential (up to 128 VPC or 8 worker nodes whatever is lower). However, IBM doesn't recommend to use Portworx Essential on Production. Refer to the license document information for the specific terms and conditions related to these entitlements.</td>
+    </tr>
+    <tr>
+        <td> <strong>Best Applied</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Contraindications</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Red Hat OpenShift Data Foundation</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Red Hat OpenShift Data Foundation</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>Red Hat OpenShift Data Foundation is available as a persistent storage options as of Red Hat OpenShift V4.3[^18.3].
+Red Hat OpenShift Data Foundation is completely integrated with Red Hat OpenShift Container Platform for deployment, management, and monitoring.</td>
+    </tr>
+    <tr>
+        <td> <strong>Best Applied</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Contraindications</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>vSphere Volumes</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>vSphere Volumes</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>vSphere Volumes provide RWO access-modes. So it cannot be used in case the application requires RWX.</td>
+    </tr>
+    <tr>
+        <td> <strong>Best Applied</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Contraindications</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<h3 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h3>
+<h3 id="justification">Justification<a class="headerlink" href="#justification" title="Permanent link">&para;</a></h3>
+<h3 id="implications">Implications<a class="headerlink" href="#implications" title="Permanent link">&para;</a></h3>
+<h3 id="derived-requirements">Derived Requirements<a class="headerlink" href="#derived-requirements" title="Permanent link">&para;</a></h3>
+<h3 id="related-decisions">Related Decisions<a class="headerlink" href="#related-decisions" title="Permanent link">&para;</a></h3>
+
+
+
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../architecturaldecision_ByJ2Q4q7jBKt/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Storage Technology for Metrics &amp;amp; Logging" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Storage Technology for Metrics &amp; Logging
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../../Misc%20Diagram/miscdiagram_SkXHeVqmjBtt/" class="md-footer__link md-footer__link--next" aria-label="Next: Az-public-cloud-env-embedded-storage" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Az-public-cloud-env-embedded-storage
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs.sticky"], "search": "../../assets/javascripts/workers/search.ecf98df9.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.9c69f0bc.min.js"></script>
+      
+        <script src="../../extra.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,4931 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://github.com/jsang16/itaa-markdown.git/IT%20System%20View/aoditsystem_HJ4nuWvtF/">
+      
+      <link rel="icon" href="../../assets/ca.svg">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.4.2">
+    
+    
+      
+        <title>08 Red Hat OpenShift on IBM Cloud on VPC - OpenShift Solution Guidance V2</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.69437709.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cbb835fc.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="black" data-md-color-accent="red">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#diagram" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="OpenShift Solution Guidance V2" class="md-header__button md-logo" aria-label="OpenShift Solution Guidance V2" data-md-component="logo">
+      
+  <img src="../../assets/ca.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            OpenShift Solution Guidance V2
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              08 Red Hat OpenShift on IBM Cloud on VPC
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="OpenShift Solution Guidance V2" class="md-nav__button md-logo" aria-label="OpenShift Solution Guidance V2" data-md-component="logo">
+      
+  <img src="../../assets/ca.svg" alt="logo">
+
+    </a>
+    OpenShift Solution Guidance V2
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          Table of Content
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Table of Content" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Table of Content
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        0. Information
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Overview/" class="md-nav__link">
+        1. Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_3" type="checkbox" id="__nav_1_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_3">
+          2. Scope
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="2. Scope" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_3">
+          <span class="md-nav__icon md-icon"></span>
+          2. Scope
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_3_1" type="checkbox" id="__nav_1_3_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_3_1">
+          2.1 Business Challenge
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="2.1 Business Challenge" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1_3_1">
+          <span class="md-nav__icon md-icon"></span>
+          2.1 Business Challenge
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Business%20Challenge/" class="md-nav__link">
+        Business Challenge
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_4" type="checkbox" id="__nav_1_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_4">
+          3. Requirement
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="3. Requirement" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_4">
+          <span class="md-nav__icon md-icon"></span>
+          3. Requirement
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_4_1" type="checkbox" id="__nav_1_4_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_4_1">
+          3.2 Functional Requirements
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="3.2 Functional Requirements" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          3.2 Functional Requirements
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Functional%20Requirements/functionalrequirement_SyEAQ49QjBYK/" class="md-nav__link">
+        Container orchestration services
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Functional%20Requirements/functionalrequirement_SkHRmNcmjSKK/" class="md-nav__link">
+        User self-service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Functional%20Requirements/functionalrequirement_HJU0mV5XsSKt/" class="md-nav__link">
+        Policy management
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Functional%20Requirements/functionalrequirement_H1PRQV57iSFY/" class="md-nav__link">
+        Cloud integration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Functional%20Requirements/functionalrequirement_S1xZHel8tY/" class="md-nav__link">
+        Network and Storage virtualization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Functional%20Requirements/functionalrequirement_Hkx58gl8KK/" class="md-nav__link">
+        Command line tools
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Functional%20Requirements/functionalrequirement_HJg6weg8KY/" class="md-nav__link">
+        CI/CD tools
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Functional%20Requirements/functionalrequirement_SygxBgeItK/" class="md-nav__link">
+        Open source tools
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Functional%20Requirements/functionalrequirement_BJxSIxl8KF/" class="md-nav__link">
+        Automation tools
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_4_2" type="checkbox" id="__nav_1_4_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_4_2">
+          3.3 Non Functional Requirements
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="3.3 Non Functional Requirements" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          3.3 Non Functional Requirements
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Non%20Functional%20Requirements/nonfunctionalrequirement_ryY0mNqXorYt/" class="md-nav__link">
+        Scalability
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Non%20Functional%20Requirements/nonfunctionalrequirement_H1es1ZgIFK/" class="md-nav__link">
+        Load balancing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Non%20Functional%20Requirements/nonfunctionalrequirement_HJeuRxeUKt/" class="md-nav__link">
+        Fault tolerance
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Non%20Functional%20Requirements/nonfunctionalrequirement_rklMVbxUFt/" class="md-nav__link">
+        Physical footprint
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Non%20Functional%20Requirements/nonfunctionalrequirement_H1l-lze8KF/" class="md-nav__link">
+        Ease of installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Non%20Functional%20Requirements/nonfunctionalrequirement_SJgeDMe8YK/" class="md-nav__link">
+        Ease of management/opera tions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Non%20Functional%20Requirements/nonfunctionalrequirement_HkgW8fgIKt/" class="md-nav__link">
+        Flexibility
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Non%20Functional%20Requirements/nonfunctionalrequirement_rkl9qMlUFK/" class="md-nav__link">
+        Security
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Non%20Functional%20Requirements/nonfunctionalrequirement_Skx_l7gIFK/" class="md-nav__link">
+        High performance
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_5" type="checkbox" id="__nav_1_5" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_5">
+          5. Architecture
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="5. Architecture" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_5">
+          <span class="md-nav__icon md-icon"></span>
+          5. Architecture
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_5_1" type="checkbox" id="__nav_1_5_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_5_1">
+          5.1 Architecture Overview
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="5.1 Architecture Overview" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1_5_1">
+          <span class="md-nav__icon md-icon"></span>
+          5.1 Architecture Overview
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_5_1_1" type="checkbox" id="__nav_1_5_1_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_5_1_1">
+          5.1.3 IT System View
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="5.1.3 IT System View" data-md-level="4">
+        <label class="md-nav__title" for="__nav_1_5_1_1">
+          <span class="md-nav__icon md-icon"></span>
+          5.1.3 IT System View
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aoditsystem_r18uxVqXsBFK/" class="md-nav__link">
+        01 Starter environment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aoditsystem_By7NIorFt/" class="md-nav__link">
+        02 Three nodes cluster
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aoditsystem_B1r5OjHFF/" class="md-nav__link">
+        03 On-premises cluster
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aoditsystem_ByreAoBFK/" class="md-nav__link">
+        04 Cloud cluster
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aoditsystem_rk9c-3BtF/" class="md-nav__link">
+        05 Two clusters on-premises
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aoditsystem_Sy-F43rKt/" class="md-nav__link">
+        06 Two clusters on two regions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aoditsystem_HkaCNxvtF/" class="md-nav__link">
+        07 AWS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          08 Red Hat OpenShift on IBM Cloud on VPC
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        08 Red Hat OpenShift on IBM Cloud on VPC
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary __page_structure" aria-label="Table of contents">
+  
+  
+  
+  
+    <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_page" type="checkbox" checked id="__nav_page">
+    <label id="__label_nav_page" class="md-nav__title md-nav__link page_structure" for="__nav_page">
+      On This Page
+      <span class="md-nav__icon md-icon" style="display: block;"></span>
+      </label>
+    </label>
+    <ul class="md-nav__list __list_nav_page" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#diagram" class="md-nav__link">
+    Diagram
+  </a>
+  
+    <nav class="md-nav" aria-label="Diagram">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#name" class="md-nav__link">
+    Name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#element" class="md-nav__link">
+    Element
+  </a>
+  
+    <nav class="md-nav" aria-label="Element">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#actor" class="md-nav__link">
+    Actor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subsystem" class="md-nav__link">
+    Subsystem
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#location" class="md-nav__link">
+    Location
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logical-connection" class="md-nav__link">
+    Logical Connection
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logical-node" class="md-nav__link">
+    Logical Node
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+  
+  
+</nav>
+
+<script>
+  var expand = document.getElementById('__nav_page');
+  var btn = document.getElementById('__label_nav_page');
+  var page = document.getElementsByClassName('__page_structure');
+  var list = document.getElementsByClassName('__list_nav_page');
+  if(expand){
+    expand.oninput = function () {
+      if (expand.checked) {
+        page[1].classList.remove('collapsed');
+        // list[1].classList.remove('collapsed');
+      }
+      else {
+        page[1].classList.add('collapsed');
+        // list[1].classList.add('collapsed');
+      }
+    }
+  }
+  
+</script>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aoditsystem_rkfCxWPYY/" class="md-nav__link">
+        09 Azure
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aoditsystem_BydIlEc7sHFF/" class="md-nav__link">
+        Deployment View
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aoditsystem_HJGd7N9QjHFt/" class="md-nav__link">
+        Diagram Legend
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aoditsystem_SJAvxVcQjStY/" class="md-nav__link">
+        OM - Prescribed View
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_5_2" type="checkbox" id="__nav_1_5_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_5_2">
+          5.2 Architectural Decisions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="5.2 Architectural Decisions" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1_5_2">
+          <span class="md-nav__icon md-icon"></span>
+          5.2 Architectural Decisions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architectural%20Decisions/architecturaldecision_SJ3uX4qQjBYK/" class="md-nav__link">
+        Hosting Platform and Managed or Self-Managed Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architectural%20Decisions/architecturaldecision_HkD_7N5XjSFF/" class="md-nav__link">
+        Red Hat OpenShift Cluster Platform Node Type
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architectural%20Decisions/architecturaldecision_rJgYm49QiHFt/" class="md-nav__link">
+        OpenShift Self Managed - IPI or UPI installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architectural%20Decisions/architecturaldecision_rkrtQ4qXoSKt/" class="md-nav__link">
+        Red Hat OpenShift Container Platform Life Cycle Policy (EUS Support)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architectural%20Decisions/architecturaldecision_Hk0F7VcXjrYY/" class="md-nav__link">
+        Control Plane Deployment Topology
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architectural%20Decisions/architecturaldecision_H1sTQ49miHKt/" class="md-nav__link">
+        Control plane node sizing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architectural%20Decisions/architecturaldecision_Sy1j7VqQoHFt/" class="md-nav__link">
+        Management Service Placement
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architectural%20Decisions/architecturaldecision_HyitX45QjHtF/" class="md-nav__link">
+        Production and Non-Production Topology
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architectural%20Decisions/architecturaldecision_SJ-5mV5msBYt/" class="md-nav__link">
+        Application Availability
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architectural%20Decisions/architecturaldecision_SJY57NqmjSYK/" class="md-nav__link">
+        Control Plane Deployment Topology (Single Region with multiple AZ)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architectural%20Decisions/architecturaldecision_S1hcmN5XsrFK/" class="md-nav__link">
+        Container Registry
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architectural%20Decisions/architecturaldecision_Bkbp7V9XsBtt/" class="md-nav__link">
+        Ingress Traffic for Applications
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architectural%20Decisions/architecturaldecision_SJB57N57srKF/" class="md-nav__link">
+        Load Balancer Selection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architectural%20Decisions/architecturaldecision_ByisXEcmoSKK/" class="md-nav__link">
+        Storage Technology for Red Hat OpenShift Cluster Platform Registry
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architectural%20Decisions/architecturaldecision_ByJ2Q4q7jBKt/" class="md-nav__link">
+        Storage Technology for Metrics &amp; Logging
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architectural%20Decisions/architecturaldecision_ryf2QV5mjSYF/" class="md-nav__link">
+        Persistent Storage Options for Applications
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_6" type="checkbox" id="__nav_1_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_6">
+          10. Misc Diagram
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="10. Misc Diagram" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_6">
+          <span class="md-nav__icon md-icon"></span>
+          10. Misc Diagram
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_SkXHeVqmjBtt/" class="md-nav__link">
+        Az-public-cloud-env-embedded-storage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_S1bHxE9QiHtt/" class="md-nav__link">
+        Az-public-cloud-env-external-storage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_SysHgN9mjSFt/" class="md-nav__link">
+        Az-public-cloud-env-infra-embedded-storage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_HJKHg4cXjStt/" class="md-nav__link">
+        Az-public-cloud-environment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_rJwElEc7srtK/" class="md-nav__link">
+        Deployment View
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_HJJrxEcQirtY/" class="md-nav__link">
+        Embeded-storage-environment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_Sy64xN97iHtt/" class="md-nav__link">
+        External-storage-environment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_Bkvrx45XiHYF/" class="md-nav__link">
+        Infra-node-env-embedded-storage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_rkSHl4cQsrKF/" class="md-nav__link">
+        Infra-node-environment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_HkBLeVcmsBYF/" class="md-nav__link">
+        Legend
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_HJsVeEq7jHFt/" class="md-nav__link">
+        Minimal-environment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_SJ78x49QoHYY/" class="md-nav__link">
+        Multi-region-public-cloud-environment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_H1KNlN97jSKY/" class="md-nav__link">
+        OM - Prescribed View
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_H1kIlN5QsrFt/" class="md-nav__link">
+        On-prem-multi-sites-env-embedded-storage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_BkpSgVq7iHFF/" class="md-nav__link">
+        On-prem-multi-sites-environment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%20Diagram/miscdiagram_SJW8gEqXjStK/" class="md-nav__link">
+        test
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_7" type="checkbox" id="__nav_1_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_7">
+          11. Notes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="11. Notes" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_7">
+          <span class="md-nav__icon md-icon"></span>
+          11. Notes
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Notes/notes_ryeC7457ortF/" class="md-nav__link">
+        Enablement
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary __page_structure" aria-label="Table of contents">
+  
+  
+  
+  
+    <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_page" type="checkbox" checked id="__nav_page">
+    <label id="__label_nav_page" class="md-nav__title md-nav__link page_structure" for="__nav_page">
+      On This Page
+      <span class="md-nav__icon md-icon" style="display: block;"></span>
+      </label>
+    </label>
+    <ul class="md-nav__list __list_nav_page" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#diagram" class="md-nav__link">
+    Diagram
+  </a>
+  
+    <nav class="md-nav" aria-label="Diagram">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#name" class="md-nav__link">
+    Name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#element" class="md-nav__link">
+    Element
+  </a>
+  
+    <nav class="md-nav" aria-label="Element">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#actor" class="md-nav__link">
+    Actor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subsystem" class="md-nav__link">
+    Subsystem
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#location" class="md-nav__link">
+    Location
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logical-connection" class="md-nav__link">
+    Logical Connection
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logical-node" class="md-nav__link">
+    Logical Node
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+  
+  
+</nav>
+
+<script>
+  var expand = document.getElementById('__nav_page');
+  var btn = document.getElementById('__label_nav_page');
+  var page = document.getElementsByClassName('__page_structure');
+  var list = document.getElementsByClassName('__list_nav_page');
+  if(expand){
+    expand.oninput = function () {
+      if (expand.checked) {
+        page[1].classList.remove('collapsed');
+        // list[1].classList.remove('collapsed');
+      }
+      else {
+        page[1].classList.add('collapsed');
+        // list[1].classList.add('collapsed');
+      }
+    }
+  }
+  
+</script>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+  <h1>08 Red Hat OpenShift on IBM Cloud on VPC</h1>
+
+<h2 id="diagram">Diagram<a class="headerlink" href="#diagram" title="Permanent link">&para;</a></h2>
+<p><img alt="08 Red Hat OpenShift on IBM Cloud on VPC" src="../../img/aoditsystem_HJ4nuWvtF.png" /></p>
+<h3 id="name">Name<a class="headerlink" href="#name" title="Permanent link">&para;</a></h3>
+<p>08 Red Hat OpenShift on IBM Cloud on VPC</p>
+<h3 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h3>
+<p>Requirement: Higher availability solution.<div><br></div><div><ul><li>Deploy cluster over availability zones (AZ).</li></ul></div><div>Number of AZ: 3</div><div><br></div><div>This topology has been tested and validated on public cloud: Amazon Web Services (AWS), Microsoft® Azure®, Google Cloud Platform, and IBM Cloud®.</div><div><br></div><div>Nodes are spread over the 3 AZ.</div><div><br></div><div>Number of nodes:</div><div><ul><li>3 master1 nodes</li><li>3 worker nodes</li><li>3 infrastructure nodes</li></ul></div><div>Note: The number of nodes and their sizing can be adjusted depending on the workload target. See the capacity sizing chapter.</div><div><br></div><div>Typical use cases:</div><div><br></div><div><ul><li>Development</li><li>Test</li><li>Integration</li><li>Production with limited SLA</li></ul></div></p>
+<h2 id="element">Element<a class="headerlink" href="#element" title="Permanent link">&para;</a></h2>
+<p><a class="md-button diff-line" href="#">Expand all</a></p>
+<h3 id="actor">Actor<a class="headerlink" href="#actor" title="Permanent link">&para;</a></h3>
+<h3 id="subsystem">Subsystem<a class="headerlink" href="#subsystem" title="Permanent link">&para;</a></h3>
+<details>
+<summary>Client managd</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Client managd</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td><div><br></div></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Cloud Services</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Cloud Services</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Managed by IBM</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Managed by IBM</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td><div><br></div></td>
+    </tr>
+</table>
+</details>
+<h3 id="location">Location<a class="headerlink" href="#location" title="Permanent link">&para;</a></h3>
+<details>
+<summary>AZ1</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>AZ1</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>The requirement is a high-available solution.<div>Deploy cluster over availability zones (AZ).</div><div>Storage solution is managed by Cloud provider across AZ.</div><div>This topology has been tested and validated on public cloud, such as Amazon Web Services (AWS), Microsoft® Azure®, Google Cloud Platform (GCP), and IBM Cloud®.</div><div>Candidate storage solutions: IBM Cloud Storage, Amazon Elastic Block Store, Azure Files</div><div><a href="https://www.ibm.com/cloud/architecture/articles/ibmaot-redhat-openshift/02-solutions-guide-solution-design-reference-architecture " target="_blank">https://www.ibm.com/cloud/architecture/articles/ibmaot-redhat-openshift/02-solutions-guide-solution-design-reference-architecture </a></div><div><br></div></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>AZ2</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>AZ2</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>The requirement is a high-available solution.<div>Deploy cluster over availability zones (AZ).</div><div>Storage solution is managed by Cloud provider across AZ.</div><div>This topology has been tested and validated on public cloud, such as Amazon Web Services (AWS), Microsoft® Azure®, Google Cloud Platform (GCP), and IBM Cloud®.</div><div>Candidate storage solutions: IBM Cloud Storage, Amazon Elastic Block Store, Azure Files</div><div><a href="https://www.ibm.com/cloud/architecture/articles/ibmaot-redhat-openshift/02-solutions-guide-solution-design-reference-architecture " target="_blank">https://www.ibm.com/cloud/architecture/articles/ibmaot-redhat-openshift/02-solutions-guide-solution-design-reference-architecture </a></div><div><br></div></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>AZ3</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>AZ3</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>The requirement is a high-available solution.<div>Deploy cluster over availability zones (AZ).</div><div>Storage solution is managed by Cloud provider across AZ.</div><div>This topology has been tested and validated on public cloud, such as Amazon Web Services (AWS), Microsoft® Azure®, Google Cloud Platform (GCP), and IBM Cloud®.</div><div>Candidate storage solutions: IBM Cloud Storage, Amazon Elastic Block Store, Azure Files</div><div><a href="https://www.ibm.com/cloud/architecture/articles/ibmaot-redhat-openshift/02-solutions-guide-solution-design-reference-architecture " target="_blank">https://www.ibm.com/cloud/architecture/articles/ibmaot-redhat-openshift/02-solutions-guide-solution-design-reference-architecture </a></div><div><br></div></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>AZ4</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>AZ4</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>The requirement is a high-available solution.<div>Deploy cluster over availability zones (AZ).</div><div>Storage solution is managed by Cloud provider across AZ.</div><div>This topology has been tested and validated on public cloud, such as Amazon Web Services (AWS), Microsoft® Azure®, Google Cloud Platform (GCP), and IBM Cloud®.</div><div>Candidate storage solutions: IBM Cloud Storage, Amazon Elastic Block Store, Azure Files</div><div><a href="https://www.ibm.com/cloud/architecture/articles/ibmaot-redhat-openshift/02-solutions-guide-solution-design-reference-architecture " target="_blank">https://www.ibm.com/cloud/architecture/articles/ibmaot-redhat-openshift/02-solutions-guide-solution-design-reference-architecture </a></div><div><br></div></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>AZ5</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>AZ5</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>The requirement is a high-available solution.<div>Deploy cluster over availability zones (AZ).</div><div>Storage solution is managed by Cloud provider across AZ.</div><div>This topology has been tested and validated on public cloud, such as Amazon Web Services (AWS), Microsoft® Azure®, Google Cloud Platform (GCP), and IBM Cloud®.</div><div>Candidate storage solutions: IBM Cloud Storage, Amazon Elastic Block Store, Azure Files</div><div><a href="https://www.ibm.com/cloud/architecture/articles/ibmaot-redhat-openshift/02-solutions-guide-solution-design-reference-architecture " target="_blank">https://www.ibm.com/cloud/architecture/articles/ibmaot-redhat-openshift/02-solutions-guide-solution-design-reference-architecture </a></div><div><br></div></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>AZ6</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>AZ6</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>The requirement is a high-available solution.<div>Deploy cluster over availability zones (AZ).</div><div>Storage solution is managed by Cloud provider across AZ.</div><div>This topology has been tested and validated on public cloud, such as Amazon Web Services (AWS), Microsoft® Azure®, Google Cloud Platform (GCP), and IBM Cloud®.</div><div>Candidate storage solutions: IBM Cloud Storage, Amazon Elastic Block Store, Azure Files</div><div><a href="https://www.ibm.com/cloud/architecture/articles/ibmaot-redhat-openshift/02-solutions-guide-solution-design-reference-architecture " target="_blank">https://www.ibm.com/cloud/architecture/articles/ibmaot-redhat-openshift/02-solutions-guide-solution-design-reference-architecture </a></div><div><br></div></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>IBM Cloud</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>IBM Cloud</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Region</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Region</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>VPC</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>VPC</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<h3 id="logical-connection">Logical Connection<a class="headerlink" href="#logical-connection" title="Permanent link">&para;</a></h3>
+<details>
+<summary></summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary></summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary></summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary></summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary></summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary></summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary></summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary></summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary></summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary></summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary></summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary></summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary></summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary></summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary></summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary></summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary></summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary></summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary></summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<details>
+<summary></summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+</table>
+</details>
+<h3 id="logical-node">Logical Node<a class="headerlink" href="#logical-node" title="Permanent link">&para;</a></h3>
+<details>
+<summary>Block Storage</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Block Storage</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>Block storage, sometimes referred to as block-level storage, is a technology that is used to store data files on Storage Area Networks (SANs) or cloud-based storage environments. Developers favor block storage for computing situations where they require fast, efficient, and reliable data transportation.
+Block storage breaks up data into blocks and then stores those blocks as separate pieces, each with a unique identifier. The SAN places those blocks of data wherever it is most efficient. That means it can store those blocks across different systems and each block can be configured (or partitioned) to work with different operating systems.
+Block storage also decouples data from user environments, allowing that data to be spread across multiple environments. This creates multiple paths to the data and allows the user to retrieve it quickly. When a user or application requests data from a block storage system, the underlying storage system reassembles the data blocks and presents the data to the user or application.
+
+
+https://www.ibm.com/cloud/learn/block-storage</td>
+    </tr>
+    <tr>
+        <td> <strong>Type</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Primary Capability</strong> </td>
+        <td>
+
+                <div>data lake</div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Implementation</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Architectural Decision</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Non Functional Requirement</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Generic Group</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Sub-level Diagram</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Related Diagrams</strong> </td>
+        <td>
+
+                <div><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Related Elements</strong> </td>
+        <td>
+
+
+        </td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Cloud object storage</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Cloud object storage</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>Object storage, often referred to as object-based storage, is a data storage architecture for handling large amounts of unstructured data. This is data that does not conform to, or cannot be organized easily into, a traditional relational database with rows and columns. Today’s Internet communications data is largely unstructured. This includes email, videos, photos, web pages, audio files, sensor data, and other types of media and web content (textual or non-textual). This content streams continuously from social media, search engines, mobile, and “smart” devices.
+
+
+https://www.ibm.com/cloud/learn/object-storage</td>
+    </tr>
+    <tr>
+        <td> <strong>Type</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Primary Capability</strong> </td>
+        <td>
+
+                <div>object store</div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Implementation</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Architectural Decision</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Non Functional Requirement</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Generic Group</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Sub-level Diagram</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Related Diagrams</strong> </td>
+        <td>
+
+                <div><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Related Elements</strong> </td>
+        <td>
+
+
+        </td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Compute node 1</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Compute node 1</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>Compute nodes are responsible for running virtual machine instances after they are launched. Compute nodes require bare metal systems that support hardware virtualization. Compute nodes must also have enough memory and disk space to support the requirements of the virtual machine instances that they host.
+
+https://access.redhat.com/documentation/en-us/red_hat_openstack_platform/10/html/director_installation_and_usage/chap-requirements</td>
+    </tr>
+    <tr>
+        <td> <strong>Type</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Primary Capability</strong> </td>
+        <td>
+
+                <div>container image</div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Implementation</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Architectural Decision</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Non Functional Requirement</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Generic Group</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Sub-level Diagram</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Related Diagrams</strong> </td>
+        <td>
+
+                <div><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_r18uxVqXsBFK">01 Starter environment</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Related Elements</strong> </td>
+        <td>
+
+
+                <div>container image</div>
+
+
+        </td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Compute node 2</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Compute node 2</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>Compute nodes are responsible for running virtual machine instances after they are launched. Compute nodes require bare metal systems that support hardware virtualization. Compute nodes must also have enough memory and disk space to support the requirements of the virtual machine instances that they host.
+
+
+https://access.redhat.com/documentation/en-us/red_hat_openstack_platform/10/html/director_installation_and_usage/chap-requirements</td>
+    </tr>
+    <tr>
+        <td> <strong>Type</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Primary Capability</strong> </td>
+        <td>
+
+                <div>container image</div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Implementation</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Architectural Decision</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Non Functional Requirement</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Generic Group</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Sub-level Diagram</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Related Diagrams</strong> </td>
+        <td>
+
+                <div><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_r18uxVqXsBFK">01 Starter environment</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Related Elements</strong> </td>
+        <td>
+
+
+                <div>container image</div>
+
+
+        </td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Compute node 3</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Compute node 3</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>Compute nodes are responsible for running virtual machine instances after they are launched. Compute nodes require bare metal systems that support hardware virtualization. Compute nodes must also have enough memory and disk space to support the requirements of the virtual machine instances that they host.
+
+https://access.redhat.com/documentation/en-us/red_hat_openstack_platform/10/html/director_installation_and_usage/chap-requirements</td>
+    </tr>
+    <tr>
+        <td> <strong>Type</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Primary Capability</strong> </td>
+        <td>
+
+                <div>container image</div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Implementation</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Architectural Decision</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Non Functional Requirement</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Generic Group</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Sub-level Diagram</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Related Diagrams</strong> </td>
+        <td>
+
+                <div><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Related Elements</strong> </td>
+        <td>
+
+
+                <div>container image</div>
+
+
+        </td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Control Plane node 1</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Control Plane node 1</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>In a Kubernetes cluster, the control plane nodes run services that are required to control the Kubernetes cluster. They contain more than just the Kubernetes services for managing the OpenShift Container Platform cluster. Instead of being grouped into a MachineSet, control plane machines are defined by a series of standalone machine API resources. Extra controls apply to control plane machines to prevent you from deleting all control plane machines and breaking your cluster.
+
+
+https://docs.openshift.com/container-platform/4.9/architecture/control-plane.html</td>
+    </tr>
+    <tr>
+        <td> <strong>Type</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Primary Capability</strong> </td>
+        <td>
+
+                <div>container platform</div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Implementation</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Architectural Decision</strong> </td>
+        <td>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_H1sTQ49miHKt">Control plane node sizing</a></div>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_Hk0F7VcXjrYY">Control Plane Deployment Topology</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Non Functional Requirement</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Generic Group</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Sub-level Diagram</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Related Diagrams</strong> </td>
+        <td>
+
+                <div><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_r18uxVqXsBFK">01 Starter environment</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Related Elements</strong> </td>
+        <td>
+
+                <div>Control plane node sizing</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_r18uxVqXsBFK">01 Starter environment</a></li>
+
+
+
+                <div>Control Plane Deployment Topology</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_r18uxVqXsBFK">01 Starter environment</a></li>
+
+
+
+
+                <div>container platform</div>
+
+
+        </td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Control Plane node 2</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Control Plane node 2</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>In a Kubernetes cluster, the control plane nodes run services that are required to control the Kubernetes cluster. They contain more than just the Kubernetes services for managing the OpenShift Container Platform cluster. Instead of being grouped into a MachineSet, control plane machines are defined by a series of standalone machine API resources. Extra controls apply to control plane machines to prevent you from deleting all control plane machines and breaking your cluster.<br><br><br>https://docs.openshift.com/container-platform/4.9/architecture/control-plane.html</td>
+    </tr>
+    <tr>
+        <td> <strong>Type</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Primary Capability</strong> </td>
+        <td>
+
+                <div>container platform</div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Implementation</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Architectural Decision</strong> </td>
+        <td>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_Hk0F7VcXjrYY">Control Plane Deployment Topology</a></div>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_SJ3uX4qQjBYK">Hosting Platform and Managed or Self-Managed Service</a></div>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_H1sTQ49miHKt">Control plane node sizing</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Non Functional Requirement</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Generic Group</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Sub-level Diagram</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Related Diagrams</strong> </td>
+        <td>
+
+                <div><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_r18uxVqXsBFK">01 Starter environment</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Related Elements</strong> </td>
+        <td>
+
+                <div>Control Plane Deployment Topology</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_r18uxVqXsBFK">01 Starter environment</a></li>
+
+
+
+                <div>Hosting Platform and Managed or Self-Managed Service</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_r18uxVqXsBFK">01 Starter environment</a></li>
+
+
+
+                <div>Control plane node sizing</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_r18uxVqXsBFK">01 Starter environment</a></li>
+
+
+
+
+                <div>container platform</div>
+
+
+        </td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Control Plane node 3</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Control Plane node 3</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>In a Kubernetes cluster, the control plane nodes run services that are required to control the Kubernetes cluster. They contain more than just the Kubernetes services for managing the OpenShift Container Platform cluster. Instead of being grouped into a MachineSet, control plane machines are defined by a series of standalone machine API resources. Extra controls apply to control plane machines to prevent you from deleting all control plane machines and breaking your cluster.<br><br><br>https://docs.openshift.com/container-platform/4.9/architecture/control-plane.html</td>
+    </tr>
+    <tr>
+        <td> <strong>Type</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Primary Capability</strong> </td>
+        <td>
+
+                <div>application runtime</div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Implementation</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Architectural Decision</strong> </td>
+        <td>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_Hk0F7VcXjrYY">Control Plane Deployment Topology</a></div>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_SJ3uX4qQjBYK">Hosting Platform and Managed or Self-Managed Service</a></div>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_H1sTQ49miHKt">Control plane node sizing</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Non Functional Requirement</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Generic Group</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Sub-level Diagram</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Related Diagrams</strong> </td>
+        <td>
+
+                <div><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_r18uxVqXsBFK">01 Starter environment</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Related Elements</strong> </td>
+        <td>
+
+                <div>Control Plane Deployment Topology</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_r18uxVqXsBFK">01 Starter environment</a></li>
+
+
+
+                <div>Hosting Platform and Managed or Self-Managed Service</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_r18uxVqXsBFK">01 Starter environment</a></li>
+
+
+
+                <div>Control plane node sizing</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_r18uxVqXsBFK">01 Starter environment</a></li>
+
+
+
+
+        </td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Infra node 1</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Infra node 1</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>It is recommended to separate the infrastructure nodes for monitoring, logging, metrics, registry, and router components. Therefore, the recommendation is to dedicate three infrastructure nodes for these functionalities. See this link from Red Hat Documentation for more details about Creating Infrastructure Machine Set.
+
+Separating these functionalities in a dedicated infrastructure machine set will free up more space in your worker nodes for your workload to run.
+
+Additionally, these infrastructure nodes don't consume from the customer's Red Hat OpenShift subscription, which is why you should consider having them separated.
+
+Collocating management functions may be feasible when performance is not required, such as in Dev/Test environments, to save the infrastructure-related costs.
+
+
+https://www.ibm.com/cloud/architecture/articles/ibmaot-redhat-openshift/02-solutions-guide-solution-design-solution-architecture</td>
+    </tr>
+    <tr>
+        <td> <strong>Type</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Primary Capability</strong> </td>
+        <td>
+
+                <div>container platform</div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Implementation</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Architectural Decision</strong> </td>
+        <td>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_Sy1j7VqQoHFt">Management Service Placement</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Non Functional Requirement</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Generic Group</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Sub-level Diagram</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Related Diagrams</strong> </td>
+        <td>
+
+                <div><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Related Elements</strong> </td>
+        <td>
+
+                <div>Management Service Placement</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+
+
+
+                <div>container platform</div>
+
+
+        </td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Infra node 2</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Infra node 2</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>It is recommended to separate the infrastructure nodes for monitoring, logging, metrics, registry, and router components. Therefore, the recommendation is to dedicate three infrastructure nodes for these functionalities. See this link from Red Hat Documentation for more details about Creating Infrastructure Machine Set.
+
+Separating these functionalities in a dedicated infrastructure machine set will free up more space in your worker nodes for your workload to run.
+
+Additionally, these infrastructure nodes don't consume from the customer's Red Hat OpenShift subscription, which is why you should consider having them separated.
+
+Collocating management functions may be feasible when performance is not required, such as in Dev/Test environments, to save the infrastructure-related costs.
+
+
+https://www.ibm.com/cloud/architecture/articles/ibmaot-redhat-openshift/02-solutions-guide-solution-design-solution-architecture</td>
+    </tr>
+    <tr>
+        <td> <strong>Type</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Primary Capability</strong> </td>
+        <td>
+
+                <div>container platform</div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Implementation</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Architectural Decision</strong> </td>
+        <td>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_Sy1j7VqQoHFt">Management Service Placement</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Non Functional Requirement</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Generic Group</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Sub-level Diagram</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Related Diagrams</strong> </td>
+        <td>
+
+                <div><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Related Elements</strong> </td>
+        <td>
+
+                <div>Management Service Placement</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+
+
+
+                <div>container platform</div>
+
+
+        </td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Infra node 3</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Infra node 3</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>It is recommended to separate the infrastructure nodes for monitoring, logging, metrics, registry, and router components. Therefore, the recommendation is to dedicate three infrastructure nodes for these functionalities. See this link from Red Hat Documentation for more details about Creating Infrastructure Machine Set.
+
+Separating these functionalities in a dedicated infrastructure machine set will free up more space in your worker nodes for your workload to run.
+
+Additionally, these infrastructure nodes don't consume from the customer's Red Hat OpenShift subscription, which is why you should consider having them separated.
+
+Collocating management functions may be feasible when performance is not required, such as in Dev/Test environments, to save the infrastructure-related costs.
+
+
+https://www.ibm.com/cloud/architecture/articles/ibmaot-redhat-openshift/02-solutions-guide-solution-design-solution-architecture</td>
+    </tr>
+    <tr>
+        <td> <strong>Type</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Primary Capability</strong> </td>
+        <td>
+
+                <div>container platform</div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Implementation</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Architectural Decision</strong> </td>
+        <td>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_Sy1j7VqQoHFt">Management Service Placement</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Non Functional Requirement</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Generic Group</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Sub-level Diagram</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Related Diagrams</strong> </td>
+        <td>
+
+                <div><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Related Elements</strong> </td>
+        <td>
+
+                <div>Management Service Placement</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+
+
+
+                <div>container platform</div>
+
+
+        </td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Load Balance for *.apps endpoint</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Load Balance for *.apps endpoint</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>Use a load balancer service to distribute traffic among your application servers residing locally within data center.
+
+
+https://cloud.ibm.com/catalog/infrastructure/load-balancer-group</td>
+    </tr>
+    <tr>
+        <td> <strong>Type</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Primary Capability</strong> </td>
+        <td>
+
+                <div>network routing</div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Implementation</strong> </td>
+        <td>
+
+                <div><a href="https://www.ibm.com/cloud/load-balancer"> IBM Cloud Load Balancers</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Architectural Decision</strong> </td>
+        <td>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_SJB57N57srKF">Load Balancer Selection</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Non Functional Requirement</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Generic Group</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Sub-level Diagram</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Related Diagrams</strong> </td>
+        <td>
+
+                <div><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Related Elements</strong> </td>
+        <td>
+
+                <div>Load Balancer Selection</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_By7NIorFt">02 Three nodes cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_r18uxVqXsBFK">01 Starter environment</a></li>
+
+
+
+
+                <div>network routing</div>
+
+
+                <div>SYS_DU_38v4HSo3KHC</div>
+
+
+        </td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Load Balancer for API endpoint</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Load Balancer for API endpoint</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>Use a load balancer service to distribute traffic among your application servers residing locally within data center.
+
+
+https://cloud.ibm.com/catalog/infrastructure/load-balancer-group</td>
+    </tr>
+    <tr>
+        <td> <strong>Type</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Primary Capability</strong> </td>
+        <td>
+
+                <div>network routing</div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Implementation</strong> </td>
+        <td>
+
+                <div><a href="https://www.ibm.com/cloud/load-balancer"> IBM Cloud Load Balancers</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Architectural Decision</strong> </td>
+        <td>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_SJB57N57srKF">Load Balancer Selection</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Non Functional Requirement</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Generic Group</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Sub-level Diagram</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Related Diagrams</strong> </td>
+        <td>
+
+                <div><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Related Elements</strong> </td>
+        <td>
+
+                <div>Load Balancer Selection</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_By7NIorFt">02 Three nodes cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_r18uxVqXsBFK">01 Starter environment</a></li>
+
+
+
+
+                <div>network routing</div>
+
+
+                <div>SYS_DU_38v4NekGlHK</div>
+
+
+        </td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Private endpoint</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Private endpoint</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>A deployment with a service endpoint on the private network gets an endpoint that is not accessible from the public internet. All traffic is routed to hardware dedicated to Cloud Databases deployments and remains on the IBM Cloud Private network. All traffic to and from this endpoint is free and unmetered on the condition that the traffic remains in IBM Cloud. After your environment has access to the IBM Cloud Private network, an internet connection is not required to connect to your deployment.
+
+
+https://cloud.ibm.com/docs/cloud-databases?topic=cloud-databases-service-endpoints</td>
+    </tr>
+    <tr>
+        <td> <strong>Type</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Primary Capability</strong> </td>
+        <td>
+
+                <div>network routing</div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Implementation</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Architectural Decision</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Non Functional Requirement</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Generic Group</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Sub-level Diagram</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Related Diagrams</strong> </td>
+        <td>
+
+                <div><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Related Elements</strong> </td>
+        <td>
+
+
+                <div>network routing</div>
+
+
+        </td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Public endpoint</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Public endpoint</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>Public endpoints provide a connection to your deployment on the public network. At provision time, a public endpoint is the default option for all deployments. Your environment needs to have internet access to connect to a deployment.
+
+
+https://cloud.ibm.com/docs/cloud-databases?topic=cloud-databases-service-endpoints</td>
+    </tr>
+    <tr>
+        <td> <strong>Type</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Primary Capability</strong> </td>
+        <td>
+
+                <div>network routing</div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Implementation</strong> </td>
+        <td>
+
+                <div><a href="https://www.ibm.com/cloud/load-balancer"> IBM Cloud Load Balancers</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Architectural Decision</strong> </td>
+        <td>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_SJB57N57srKF">Load Balancer Selection</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Non Functional Requirement</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Generic Group</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Sub-level Diagram</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Related Diagrams</strong> </td>
+        <td>
+
+                <div><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Related Elements</strong> </td>
+        <td>
+
+                <div>Load Balancer Selection</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_By7NIorFt">02 Three nodes cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_r18uxVqXsBFK">01 Starter environment</a></li>
+
+
+
+
+                <div>network routing</div>
+
+
+                <div>SYS_DU_38v4OttZ8X7</div>
+
+
+        </td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Public Gateway 1</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Public Gateway 1</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Type</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Primary Capability</strong> </td>
+        <td>
+
+                <div>network routing</div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Implementation</strong> </td>
+        <td>
+
+                <div><a href="https://www.ibm.com/cloud/load-balancer"> IBM Cloud Load Balancers</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Architectural Decision</strong> </td>
+        <td>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_SJB57N57srKF">Load Balancer Selection</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Non Functional Requirement</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Generic Group</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Sub-level Diagram</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Related Diagrams</strong> </td>
+        <td>
+
+                <div><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Related Elements</strong> </td>
+        <td>
+
+                <div>Load Balancer Selection</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_By7NIorFt">02 Three nodes cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_r18uxVqXsBFK">01 Starter environment</a></li>
+
+
+
+
+                <div>network routing</div>
+
+
+                <div>SYS_DU_38v57pMSlMf</div>
+
+
+        </td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Public Gateway 2</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Public Gateway 2</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Type</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Primary Capability</strong> </td>
+        <td>
+
+                <div>network routing</div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Implementation</strong> </td>
+        <td>
+
+                <div><a href="https://www.ibm.com/cloud/load-balancer"> IBM Cloud Load Balancers</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Architectural Decision</strong> </td>
+        <td>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_SJB57N57srKF">Load Balancer Selection</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Non Functional Requirement</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Generic Group</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Sub-level Diagram</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Related Diagrams</strong> </td>
+        <td>
+
+                <div><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Related Elements</strong> </td>
+        <td>
+
+                <div>Load Balancer Selection</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_By7NIorFt">02 Three nodes cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_r18uxVqXsBFK">01 Starter environment</a></li>
+
+
+
+
+                <div>network routing</div>
+
+
+                <div>SYS_DU_38v58Kl6GAD</div>
+
+
+        </td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Public Gateway 3</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Public Gateway 3</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Type</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Primary Capability</strong> </td>
+        <td>
+
+                <div>network routing</div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Implementation</strong> </td>
+        <td>
+
+                <div><a href="https://www.ibm.com/cloud/load-balancer"> IBM Cloud Load Balancers</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Architectural Decision</strong> </td>
+        <td>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_SJB57N57srKF">Load Balancer Selection</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Non Functional Requirement</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Generic Group</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Sub-level Diagram</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Related Diagrams</strong> </td>
+        <td>
+
+                <div><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Related Elements</strong> </td>
+        <td>
+
+                <div>Load Balancer Selection</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_By7NIorFt">02 Three nodes cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_r18uxVqXsBFK">01 Starter environment</a></li>
+
+
+
+
+                <div>network routing</div>
+
+
+                <div>SYS_DU_38v59UaV9p8</div>
+
+
+        </td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Storage node 1</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Storage node 1</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>Storage for persistent volumes is embedded into the cluster and managed as containers. Some examples are:
+
+Rook Ceph
+Red Hat OpenShift Data Foundation   
+Portworx
+
+Dedication of storage nodes. Isolate storage workload on specific nodes. There are pods, deployed on the cluster that are managing access to storage resource. Alternative: storage nodes could be merged with compute nodes (min 3 worker nodes) but it could have impacts on performance.</td>
+    </tr>
+    <tr>
+        <td> <strong>Type</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Primary Capability</strong> </td>
+        <td>
+
+                <div>container platform</div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Implementation</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Architectural Decision</strong> </td>
+        <td>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_ByJ2Q4q7jBKt">Storage Technology for Metrics &amp; Logging</a></div>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_ByisXEcmoSKK">Storage Technology for Red Hat OpenShift Cluster Platform Registry</a></div>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_ryf2QV5mjSYF">Persistent Storage Options for Applications</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Non Functional Requirement</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Generic Group</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Sub-level Diagram</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Related Diagrams</strong> </td>
+        <td>
+
+                <div><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Related Elements</strong> </td>
+        <td>
+
+                <div>Storage Technology for Metrics &amp; Logging</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+
+
+                <div>Storage Technology for Red Hat OpenShift Cluster Platform Registry</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+
+
+                <div>Persistent Storage Options for Applications</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+
+
+
+                <div>container platform</div>
+
+
+        </td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Storage node 2</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Storage node 2</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>Storage for persistent volumes is embedded into the cluster and managed as containers. Some examples are:
+
+ Rook Ceph
+ Red Hat OpenShift Data Foundation   
+ Portworx
+Dedication of storage nodes. Isolate storage workload on specific nodes. There are pods, deployed on the cluster that are managing access to storage resource. Alternative: storage nodes could be merged with compute nodes (min 3 worker nodes) but it could have impacts on performance.</td>
+    </tr>
+    <tr>
+        <td> <strong>Type</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Primary Capability</strong> </td>
+        <td>
+
+                <div>container platform</div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Implementation</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Architectural Decision</strong> </td>
+        <td>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_ryf2QV5mjSYF">Persistent Storage Options for Applications</a></div>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_ByJ2Q4q7jBKt">Storage Technology for Metrics &amp; Logging</a></div>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_ByisXEcmoSKK">Storage Technology for Red Hat OpenShift Cluster Platform Registry</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Non Functional Requirement</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Generic Group</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Sub-level Diagram</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Related Diagrams</strong> </td>
+        <td>
+
+                <div><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Related Elements</strong> </td>
+        <td>
+
+                <div>Persistent Storage Options for Applications</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+
+
+                <div>Storage Technology for Metrics &amp; Logging</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+
+
+                <div>Storage Technology for Red Hat OpenShift Cluster Platform Registry</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+
+
+
+                <div>container platform</div>
+
+
+        </td>
+    </tr>
+</table>
+</details>
+<details>
+<summary>Storage node 3</summary>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tr>
+        <td> <strong>Name</strong> </td>
+        <td>Storage node 3</td>
+    </tr>
+    <tr>
+        <td> <strong>Description</strong> </td>
+        <td>Storage for persistent volumes is embedded into the cluster and managed as containers. Some examples are:
+
+Rook Ceph
+Red Hat OpenShift Data Foundation   
+Portworx
+
+Dedication of storage nodes. Isolate storage workload on specific nodes. There are pods, deployed on the cluster that are managing access to storage resource. Alternative: storage nodes could be merged with compute nodes (min 3 worker nodes) but it could have impacts on performance.</td>
+    </tr>
+    <tr>
+        <td> <strong>Type</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Primary Capability</strong> </td>
+        <td>
+
+                <div>container platform</div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Implementation</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Architectural Decision</strong> </td>
+        <td>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_ByisXEcmoSKK">Storage Technology for Red Hat OpenShift Cluster Platform Registry</a></div>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_ryf2QV5mjSYF">Persistent Storage Options for Applications</a></div>
+
+                <div><a href="../../Architectural Decisions/architecturaldecision_ByJ2Q4q7jBKt">Storage Technology for Metrics &amp; Logging</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Non Functional Requirement</strong> </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Generic Group</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Sub-level Diagram</strong> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> <strong>Related Diagrams</strong> </td>
+        <td>
+
+                <div><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></div>
+
+                <div><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> <strong>Related Elements</strong> </td>
+        <td>
+
+                <div>Storage Technology for Red Hat OpenShift Cluster Platform Registry</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+
+
+                <div>Persistent Storage Options for Applications</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+
+
+                <div>Storage Technology for Metrics &amp; Logging</div>
+
+
+                    <li><a href="../../IT System View/aoditsystem_HJ4nuWvtF">08 Red Hat OpenShift on IBM Cloud on VPC</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rkfCxWPYY">09 Azure</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_HkaCNxvtF">07 AWS</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_Sy-F43rKt">06 Two clusters on two regions</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_rk9c-3BtF">05 Two clusters on-premises</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_ByreAoBFK">04 Cloud cluster</a></li>
+
+                    <li><a href="../../IT System View/aoditsystem_B1r5OjHFF">03 On-premises cluster</a></li>
+
+
+
+
+                <div>container platform</div>
+
+
+        </td>
+    </tr>
+</table>
+</details>
+
+
+
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../aoditsystem_HkaCNxvtF/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 07 AWS" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              07 AWS
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../aoditsystem_rkfCxWPYY/" class="md-footer__link md-footer__link--next" aria-label="Next: 09 Azure" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              09 Azure
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs.sticky"], "search": "../../assets/javascripts/workers/search.ecf98df9.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.9c69f0bc.min.js"></script>
+      
+        <script src="../../extra.js"></script>
+      
+    
+  </body>
+</html>
